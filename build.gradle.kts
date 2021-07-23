@@ -109,6 +109,26 @@ afterEvaluate {
     }
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("default") {
+            from(components["java"])
+            // Include any other artifacts here, like javadocs
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/layer-software/jooq-plugin")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
 
 dependencies {
     implementation("org.jooq:jooq-codegen:3.14.8")
